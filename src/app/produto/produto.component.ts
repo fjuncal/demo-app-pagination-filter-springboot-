@@ -3,6 +3,7 @@ import { ProdutoService } from './service/produto.service';
 import { Produto } from './model/produto';
 import { Page } from './model/page';
 import { log } from 'console';
+import { ProdutoFiltro } from './model/produto-filtro';
 
 @Component({
   selector: 'app-produto',
@@ -11,15 +12,18 @@ import { log } from 'console';
 })
 export class ProdutoComponent implements OnInit {
 
+  produtoFiltro!: ProdutoFiltro;
+
    produtos: Array<Produto> = [];
    page ?: Page;
 
   constructor(private produtoService: ProdutoService) { }
 
   ngOnInit(): void {
+    this.produtoFiltro = new ProdutoFiltro();
   }
 
-  teste(page: any, size: any){
+  buscar(page: any, size: any){
     this.produtoService.getProdutosListPaginado(page, size).subscribe(res => {
         this.page = res;
         this.produtos = this.page.content;
@@ -30,7 +34,11 @@ export class ProdutoComponent implements OnInit {
     console.log("oi")
   }
   changePage(event: any){
-    this.teste(event.page, event.size);
+    this.buscar(event.page, event.size);
+  }
+
+  consultarProduto(){
+    console.log(this.produtoFiltro)
   }
 
 }

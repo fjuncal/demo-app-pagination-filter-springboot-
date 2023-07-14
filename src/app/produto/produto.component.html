@@ -8,8 +8,28 @@
 </head>
 <body>
 
-  <button (click)="teste(0, 10)" class="button" class="btn btn-primary">Primary</button>
 
+  <form (submit)="consultarProduto()">
+    <div class="form-inline">
+      <div class="col-auto">
+        <label for="inputId">Id</label>
+        <input type="text" class="form-control" [(ngModel)]="produtoFiltro.id" id="inputId" name="id">
+      </div>
+      <div class="col-auto">
+        <label for="inputNome">Nome</label>
+        <input type="text" class="form-control" id="inputNome" [(ngModel)]="produtoFiltro.nome" name="nome">
+      </div>
+      <div class="col-auto">
+        <label for="inputPreco">Preço</label>
+        <input type="number" class="form-control" id="inputPreco" [(ngModel)]="produtoFiltro.preco" name="preco">
+      </div>
+        <button type="submit" class="btn btn-primary mb-100">BuscarComFiltro</button>
+    </div>
+  </form>
+
+  <div class="mt-auto">
+    <button (click)="buscar(0, 10)" class="button" class="btn btn-primary">Buscar</button>
+  </div>
   <table class="table">
     <thead>
       <tr>
