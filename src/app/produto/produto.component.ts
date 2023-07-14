@@ -23,22 +23,26 @@ export class ProdutoComponent implements OnInit {
     this.produtoFiltro = new ProdutoFiltro();
   }
 
-  buscar(page: any, size: any){
-    this.produtoService.getProdutosListPaginado(page, size).subscribe(res => {
-        this.page = res;
-        this.produtos = this.page.content;
-    })
-  //   this.produtoService.getProdutosList().subscribe(res => {
-  //     this.produtos = res;
-  // })
-    console.log("oi")
-  }
+  // buscar(page: any, size: any){
+  //   this.produtoService.getProdutosListPaginado(page, size).subscribe(res => {
+  //       this.page = res;
+  //       this.produtos = this.page.content;
+  //   })
+  // //   this.produtoService.getProdutosList().subscribe(res => {
+  // //     this.produtos = res;
+  // // })
+  //   console.log("oi")
+  // }
   changePage(event: any){
-    this.buscar(event.page, event.size);
+    this.consultarProduto(event.page, event.size);
   }
 
-  consultarProduto(){
+  consultarProduto(page: any, size: any){
     console.log(this.produtoFiltro)
+    this.produtoService.getProdutosListPaginado(page, size, this.produtoFiltro).subscribe(res => {
+      this.page = res;
+      this.produtos = this.page.content;
+    })
   }
 
 }

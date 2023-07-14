@@ -9,7 +9,7 @@
 <body>
 
 
-  <form (submit)="consultarProduto()">
+  <form (submit)="consultarProduto(0, 10)">
     <div class="form-inline">
       <div class="col-auto">
         <label for="inputId">Id</label>
@@ -28,7 +28,7 @@
   </form>
 
   <div class="mt-auto">
-    <button (click)="buscar(0, 10)" class="button" class="btn btn-primary">Buscar</button>
+    <button (click)="consultarProduto(0, 10)" class="button" class="btn btn-primary">Buscar</button>
   </div>
   <table class="table">
     <thead>
