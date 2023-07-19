@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Page } from './models/page';
 
 @Component({
   selector: 'app-paginacao',
@@ -12,7 +13,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
                   <a  class="page-link" *ngIf="page.first" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                   </a>
-                  <a  class="page-link" style="cursor: pointer" *ngIf="!page.first" (click)="changePage(page.number-1)" aria-label="Previous">
+                  <a  class="page-link" style="cursor: pointer" *ngIf="!page.first" (click)="goToTheFirst()" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                   </a>
               </li>
@@ -25,16 +26,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
                   <a  class="page-link" *ngIf="page.last" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                   </a>
-                  <a  class="page-link" style="cursor: pointer" *ngIf="!page.last" (click)="changePage(page.number+1)" aria-label="Next">
+                  <a  class="page-link" style="cursor: pointer" *ngIf="!page.last" (click)="goToTheLast()" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                   </a>
               </li>
-              <select class="custom-select" (ngModelChange)="changePage()" [(ngModel)]="size">
-                    <option value="5">5</option>
-                    <option value="10" selected>10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-              </select>
+        <select class="custom-select teste" (ngModelChange)="changePage()" [(ngModel)]="size">
+                <option value="10">10</option>
+                <option value="30">30</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+        </select>
           </ul>
       </nav>
 
@@ -42,9 +43,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class PaginacaoComponent implements OnInit {
 
-  size: number = 10;
-  page: any;
-  @Input("page") public set value(page : any){
+  page: Page;
+  size:number;
+  @Input("page") public set value(page : Page){
       if(!page) return;
       this.page = page;
       this.setPagetion();
@@ -55,13 +56,22 @@ export class PaginacaoComponent implements OnInit {
 
   ngOnInit() {}
 
-  changePage(page?: any){
+  changePage(page?: Page){            
       setTimeout(()=>{
-          this.paginationEvent.emit({page: page? page : 0, size: this.size} );
+          this.paginationEvent.emit({page: page? page : 0, size: this.size? this.size : this.page.size} );
       });
   }
 
+  goToTheFirst(){
+    this.paginationEvent.emit({page: 0, size: this.page.size} );
+  }
+
+  goToTheLast(){
+    this.paginationEvent.emit({page: this.page.totalPages - 1, size: this.page.size} );
+  }
+
   setPagetion(){
+
       let pages = new Array<number>();
       let inc =  (this.page.number - 2) <= 0 ? (4 - this.page.number) : 2;
       let dec =  (this.page.number + 2) >= this.page.totalPages ? (5 - (this.page.totalPages - this.page.number)) : 2;
@@ -70,7 +80,8 @@ export class PaginacaoComponent implements OnInit {
       for(let i = inicio; i<= fim; i++){
           pages.push(i);
       }
-      this.page.pages = pages;
+      this.page.pages = pages;      
+
   }
 
 }
