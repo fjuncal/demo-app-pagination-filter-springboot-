@@ -1,7 +1,7 @@
 import { Produto } from "./produto";
 
 export interface Page {
-  content: Array<Produto>;
+  content: any[];
   totalPages: number;
   totalElements: number;
   last: boolean;
