@@ -10,4 +10,5 @@ export interface Page {
   sort: any;
   numberOfElements: number;
   first: boolean;
+  pages: number[]
 }

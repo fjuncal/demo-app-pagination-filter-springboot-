@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Page } from './models/page';
+import { Page } from '../produto/model/page';
 
 @Component({
   selector: 'app-paginacao',
@@ -43,8 +43,8 @@ import { Page } from './models/page';
 })
 export class PaginacaoComponent implements OnInit {
 
-  page: Page;
-  size:number;
+  page?: Page;
+  size?:number;
   @Input("page") public set value(page : Page){
       if(!page) return;
       this.page = page;
@@ -56,31 +56,31 @@ export class PaginacaoComponent implements OnInit {
 
   ngOnInit() {}
 
-  changePage(page?: Page){            
+  changePage(page?: number){
       setTimeout(()=>{
-          this.paginationEvent.emit({page: page? page : 0, size: this.size? this.size : this.page.size} );
+          this.paginationEvent.emit({page: page? page : 0, size: this.size? this.size : this.page?.size} );
       });
   }
 
   goToTheFirst(){
-    this.paginationEvent.emit({page: 0, size: this.page.size} );
+    this.paginationEvent.emit({page: 0, size: this.page?.size} );
   }
 
   goToTheLast(){
-    this.paginationEvent.emit({page: this.page.totalPages - 1, size: this.page.size} );
+    this.paginationEvent.emit({page: this.page!.totalPages - 1, size: this.page?.size} );
   }
 
   setPagetion(){
 
       let pages = new Array<number>();
-      let inc =  (this.page.number - 2) <= 0 ? (4 - this.page.number) : 2;
-      let dec =  (this.page.number + 2) >= this.page.totalPages ? (5 - (this.page.totalPages - this.page.number)) : 2;
-      let inicio = (this.page.number - dec) <= 0 ? 0 : (this.page.number - dec);
-      let fim = (this.page.number + inc) < this.page.totalPages ? (this.page.number + inc) : (this.page.totalPages - 1);
+      let inc =  (this.page!.number - 2) <= 0 ? (4 - this.page!.number) : 2;
+      let dec =  (this.page!.number + 2) >= this.page!.totalPages ? (5 - (this.page!.totalPages - this.page!.number)) : 2;
+      let inicio = (this.page!.number - dec) <= 0 ? 0 : (this.page!.number - dec);
+      let fim = (this.page!.number + inc) < this.page!.totalPages ? (this.page!.number + inc) : (this.page!.totalPages - 1);
       for(let i = inicio; i<= fim; i++){
           pages.push(i);
       }
-      this.page.pages = pages;      
+      this.page!.pages = pages;
 
   }
 
